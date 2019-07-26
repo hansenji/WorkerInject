@@ -1,0 +1,2 @@
+include ':worker-inject-sample', ':worker-inject', ':worker-inject-annotations', ':worker-inject-processor', ':worker-inject-stubs'
+rootProject.name='WorkerInject'
