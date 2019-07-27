@@ -155,7 +155,7 @@ class WorkerInjectProcessor : AbstractProcessor() {
             valid = false
         }
         if (!types.isSubtype(asType(), workerType)) {
-            error("@WorkerInject-using tyeps must be a subtype of androidx.work.ListenableWorker", this)
+            error("@WorkerInject-using tyeps must be a subtype of androidx.work.ListenableWorker or androidx.work.Worker", this)
             valid = false
         }
 
@@ -205,7 +205,7 @@ class WorkerInjectProcessor : AbstractProcessor() {
         }
 
         if (providedRequests.isEmpty()) {
-            warn("Worker injection recommends at least one non-@Assisted paramter.")
+            warn("Worker injection recommends at least one non-@Assisted paramter.", targetConstructor)
         } else {
             val providedDuplicates = providedRequests.groupBy { it.key }.filterValues { it.size > 1 }
             if (providedDuplicates.isNotEmpty()) {
