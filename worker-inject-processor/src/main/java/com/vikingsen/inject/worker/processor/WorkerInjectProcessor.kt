@@ -21,6 +21,8 @@ import com.squareup.javapoet.JavaFile
 import com.vikingsen.inject.worker.WorkerInject
 import com.vikingsen.inject.worker.WorkerModule
 import com.vikingsen.inject.worker.processor.internal.createGeneratedAnnotation
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessor
+import net.ltgt.gradle.incap.IncrementalAnnotationProcessorType
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.Filer
 import javax.annotation.processing.Messager
@@ -42,6 +44,7 @@ import javax.lang.model.util.Types
 import javax.tools.Diagnostic.Kind.ERROR
 import javax.tools.Diagnostic.Kind.WARNING
 
+@IncrementalAnnotationProcessor(IncrementalAnnotationProcessorType.ISOLATING)
 @AutoService(Processor::class)
 class WorkerInjectProcessor : AbstractProcessor() {
 

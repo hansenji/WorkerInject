@@ -23,7 +23,11 @@ buildscript {
             'assistedInject'         : 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.0',
             'assistedInjectCompiler' : 'com.squareup.inject:assisted-inject-processor-dagger2:0.5.0',
             'assistedInjectProcessor': 'com.squareup.inject:assisted-inject-processor:0.5.0',
-            'work'                   : 'androidx.work:work-runtime:2.2.0'
+            'work'                   : 'androidx.work:work-runtime:2.2.0',
+            'incap': [
+                    'runtime': "net.ltgt.gradle.incap:incap:0.2",
+                    'processor': "net.ltgt.gradle.incap:incap-processor:0.2",
+            ],
     ]
 
     repositories {
