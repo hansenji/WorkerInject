@@ -896,37 +896,6 @@ class WorkerInjectProcessorTest {
     }
 
     @Test
-    fun constructorMissingProvidedParametersWarnsTest() {
-        val inputWorker = JavaFileObjects.forSourceString(
-            "test.TestWorker", """
-            package test;
-
-            import android.content.Context;
-            import androidx.work.Worker;
-            import androidx.work.WorkerParameters;
-            import com.squareup.inject.assisted.Assisted;
-            import com.vikingsen.inject.worker.WorkerInject;
-
-            class TestWorker extends Worker {
-                @WorkerInject
-                TestWorker(@Assisted Context appContext, @Assisted WorkerParameters workerParams) {
-                    super(appContext, workerParams);
-                }
-            }
-        """
-        )
-
-        assertAbout(javaSource())
-            .that(inputWorker)
-            .processedWith(WorkerInjectProcessor())
-            .compilesWithoutError()
-            .withWarningContaining("""
-                Worker injection recommends at least one non-@Assisted paramter.
-            """.trimIndent())
-            .`in`(inputWorker).onLine(12)
-    }
-
-    @Test
     fun privateConstructorFailsTest() {
         val inputWorker = JavaFileObjects.forSourceString(
             "test.TestWorker", """

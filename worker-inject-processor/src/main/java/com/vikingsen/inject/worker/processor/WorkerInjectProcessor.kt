@@ -187,13 +187,12 @@ class WorkerInjectProcessor : AbstractProcessor() {
      * From this [WorkerInjectElements], parse and validate the semantic information of the
      * elements which is required to generate the factory:
      * - Optional unqualified assisted parameters of Context and WorkerParameters
-     * - At least one provided parameter and no duplicates
      */
     private fun WorkerInjectElements.toAssistedInjectionOrNull(): AssistedInjection? {
         var valid = true
 
         val requests = targetConstructor.parameters.map { it.asDependencyRequest() }
-        val (assistedRequests, providedRequests) = requests.partition { it.isAssisted }
+        val (assistedRequests, _) = requests.partition { it.isAssisted }
         val assistedKeys = assistedRequests.map { it.namedKey }
         if (assistedKeys.toSet() != FACTORY_KEYS.toSet()) {
             error(
@@ -206,20 +205,6 @@ class WorkerInjectProcessor : AbstractProcessor() {
         """.trimIndent(), targetConstructor
             )
             valid = false
-        }
-
-        if (providedRequests.isEmpty()) {
-            warn("Worker injection recommends at least one non-@Assisted paramter.", targetConstructor)
-        } else {
-            val providedDuplicates = providedRequests.groupBy { it.key }.filterValues { it.size > 1 }
-            if (providedDuplicates.isNotEmpty()) {
-                error(
-                    "Duplicate non-@Assisted parameters declared. Forget a qualifier annotation?"
-                            + providedDuplicates.values.flatten().joinToString("\n * ", prefix = "\n * "),
-                    targetConstructor
-                )
-                valid = false
-            }
         }
 
         if (!valid) return null
