@@ -3,7 +3,7 @@ Assisted Injection for Androidx Workers
 
 This library is based on and depends heavily on [Assisted Inject](https://github.com/square/AssistedInject)
 
-WorkerInject supports [Dagger2](https://google.github.io/dagger/) and [SavedStateHandle](https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate)
+WorkerInject supports [Dagger2](https://google.github.io/dagger/) 
 
 This Library will go 1.0 when Assisted Inject goes 1.0.
 
