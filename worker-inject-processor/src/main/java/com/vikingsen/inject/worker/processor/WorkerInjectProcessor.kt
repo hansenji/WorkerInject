@@ -7,9 +7,9 @@ import com.squareup.inject.assisted.processor.NamedKey
 import com.squareup.inject.assisted.processor.asDependencyRequest
 import com.squareup.inject.assisted.processor.internal.MirrorValue
 import com.squareup.inject.assisted.processor.internal.applyEach
-import com.squareup.inject.assisted.processor.internal.associateWithNotNull
 import com.squareup.inject.assisted.processor.internal.cast
 import com.squareup.inject.assisted.processor.internal.castEach
+import com.squareup.inject.assisted.processor.internal.filterNotNullValues
 import com.squareup.inject.assisted.processor.internal.findElementsAnnotatedWith
 import com.squareup.inject.assisted.processor.internal.getAnnotation
 import com.squareup.inject.assisted.processor.internal.getValue
@@ -73,7 +73,8 @@ class WorkerInjectProcessor : AbstractProcessor() {
             .mapNotNull { it.toWorkerInjectElementsOrNull() }
 
         workerInjectElements
-            .associateWithNotNull { it.toAssistedInjectionOrNull() }
+            .associateWith { it.toAssistedInjectionOrNull() }
+            .filterNotNullValues()
             .forEach { writeWorkerInject(it.key, it.value) }
 
         val workerModuleElements = roundEnv.findWorkerModuleTypeElement()
