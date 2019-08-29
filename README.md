@@ -93,8 +93,8 @@ It is recommended to use [On-demand Initialization](https://developer.android.co
 Download
 --------
 ```groovy
-implementation 'com.vikingsen.inject:worker-inject:0.1.0'
-annotationProcessor 'com.vikingsen.inject:worker-inject-processor:0.1.0' // or `kapt` for Kotlin
+implementation 'com.vikingsen.inject:worker-inject:0.2.0'
+annotationProcessor 'com.vikingsen.inject:worker-inject-processor:0.2.0' // or `kapt` for Kotlin
 ```
 
 For Snapshots include the following repository:
