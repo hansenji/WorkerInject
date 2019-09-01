@@ -15,16 +15,18 @@ Usage
 Java
 ```java
 class MyWorker extends Worker {
-    @ViewModelInject
-    MyViewModel(Long foo, @Assisted Context appContext, @Assisted WorkerParamerter workerParams) {}
+    @WorkerInject
+    MyWorker(Long foo, @Assisted Context appContext, @Assisted WorkerParameter workerParams) {
+        super(appContext, workerParams)
+    }
 }
 ```
 Kotlin
 ```kotlin
 class MyWorker
-@ViewModelInject constructor(
-    foo: Long, @Assisted appContext Context, @Assisted workerParams WorkerParamerter
-): Worker() {}
+@WorkerInject constructor(
+    foo: Long, @Assisted appContext: Context, @Assisted workerParams: WorkerParameter
+): Worker(appContext, workerParams) {}
 ```
 
 #### Module
@@ -55,13 +57,6 @@ Java
 ```java
 @Inject WorkerFactory workerFactory;
 
-public void onCreate() {
-    super.onCreate();
-    MyViewModel viewModel = ViewModelProviders.of(this, viewModelFactory)
-                                .get(MainViewModel.class);
-    // ...
-}
-
 @Override
 public Configuration getWorkManagerConfiguration() {
     return Configuration.Builder()
@@ -73,13 +68,6 @@ Kotlin
 ```kotlin
 @Inject 
 lateinit var workerFactory: WorkerFactory
-
-public void onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    val viewModel = ViewModelProviders.of(this, viewModelFactory)
-                                .get(MainViewModel::class.java)
-    // ...
-}
 
 override fun getWorkManagerConfiguration(): Configuration {
     return Configuration.Builder()
