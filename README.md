@@ -57,25 +57,37 @@ To do this inside your Application inject the `com.vikingsen.inject.worker.Worke
 
 Java
 ```java
-@Inject WorkerFactory workerFactory;
+class App extends Application implements Configuration.Provider {
+    @Inject WorkerFactory workerFactory;
 
-@Override
-public Configuration getWorkManagerConfiguration() {
-    return Configuration.Builder()
-        .setWorkerFactory(workerFactory)
-        .build();
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build();
+    }
 }
 ```
 Kotlin
 ```kotlin
-@Inject 
-lateinit var workerFactory: WorkerFactory
+class App: Application(), Configuration.Provider {
+    @Inject 
+    lateinit var workerFactory: WorkerFactory
 
-override fun getWorkManagerConfiguration(): Configuration {
-    return Configuration.Builder()
-        .setWorkerFactory(workerFactory)
-        .build()
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+    }
 }
+```
+
+And in your `AndroidManifest.xml` add:
+```xml
+<provider
+    android:name="androidx.work.impl.WorkManagerInitializer"
+    android:authorities="${applicationId}.workmanager-init"
+    tools:node="remove" />
 ```
 
 Download
