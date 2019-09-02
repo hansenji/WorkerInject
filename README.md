@@ -51,7 +51,9 @@ The library will generate the `WorkerInject_AssistModule` for us.
 
 #### Factory
 
-Inside your Application inject the `com.vikingsen.inject.worker.WorkerFactory`
+It is recommended to use [On-demand Initialization](https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration#on-demand).
+
+To do this inside your Application inject the `com.vikingsen.inject.worker.WorkerFactory`
 
 Java
 ```java
@@ -75,8 +77,6 @@ override fun getWorkManagerConfiguration(): Configuration {
         .build()
 }
 ```
-
-It is recommended to use [On-demand Initialization](https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration#on-demand).
 
 Download
 --------
