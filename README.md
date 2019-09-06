@@ -93,8 +93,8 @@ And in your `AndroidManifest.xml` add:
 Download
 --------
 ```groovy
-implementation 'com.vikingsen.inject:worker-inject:0.2.0'
-annotationProcessor 'com.vikingsen.inject:worker-inject-processor:0.2.0' // or `kapt` for Kotlin
+implementation 'com.vikingsen.inject:worker-inject:0.2.1'
+annotationProcessor 'com.vikingsen.inject:worker-inject-processor:0.2.1' // or `kapt` for Kotlin
 ```
 
 For Snapshots include the following repository:
