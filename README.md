@@ -15,16 +15,18 @@ Usage
 Java
 ```java
 class MyWorker extends Worker {
-    @ViewModelInject
-    MyViewModel(Long foo, @Assisted Context appContext, @Assisted WorkerParamerter workerParams) {}
+    @WorkerInject
+    MyWorker(Long foo, @Assisted Context appContext, @Assisted WorkerParameter workerParams) {
+        super(appContext, workerParams)
+    }
 }
 ```
 Kotlin
 ```kotlin
 class MyWorker
-@ViewModelInject constructor(
-    foo: Long, @Assisted appContext Context, @Assisted workerParams WorkerParamerter
-): Worker() {}
+@WorkerInject constructor(
+    foo: Long, @Assisted appContext: Context, @Assisted workerParams: WorkerParameter
+): Worker(appContext, workerParams) {}
 ```
 
 #### Module
@@ -49,46 +51,44 @@ The library will generate the `WorkerInject_AssistModule` for us.
 
 #### Factory
 
-Inside your Application inject the `com.vikingsen.inject.worker.WorkerFactory`
+It is recommended to use [On-demand Initialization](https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration#on-demand).
+
+To do this inside your Application inject the `com.vikingsen.inject.worker.WorkerFactory`
 
 Java
 ```java
-@Inject WorkerFactory workerFactory;
+class App extends Application implements Configuration.Provider {
+    @Inject WorkerFactory workerFactory;
 
-public void onCreate() {
-    super.onCreate();
-    MyViewModel viewModel = ViewModelProviders.of(this, viewModelFactory)
-                                .get(MainViewModel.class);
-    // ...
-}
-
-@Override
-public Configuration getWorkManagerConfiguration() {
-    return Configuration.Builder()
-        .setWorkerFactory(workerFactory)
-        .build();
+    @Override
+    public Configuration getWorkManagerConfiguration() {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build();
+    }
 }
 ```
 Kotlin
 ```kotlin
-@Inject 
-lateinit var workerFactory: WorkerFactory
+class App: Application(), Configuration.Provider {
+    @Inject 
+    lateinit var workerFactory: WorkerFactory
 
-public void onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    val viewModel = ViewModelProviders.of(this, viewModelFactory)
-                                .get(MainViewModel::class.java)
-    // ...
-}
-
-override fun getWorkManagerConfiguration(): Configuration {
-    return Configuration.Builder()
-        .setWorkerFactory(workerFactory)
-        .build()
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+    }
 }
 ```
 
-It is recommended to use [On-demand Initialization](https://developer.android.com/topic/libraries/architecture/workmanager/advanced/custom-configuration#on-demand).
+And in your `AndroidManifest.xml` add:
+```xml
+<provider
+    android:name="androidx.work.impl.WorkManagerInitializer"
+    android:authorities="${applicationId}.workmanager-init"
+    tools:node="remove" />
+```
 
 Download
 --------
