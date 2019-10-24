@@ -1,3 +1,7 @@
+0.2.2 (2019-10-24)
+==================
+* Changed annotation retention policy to `CLASS` to better support incremental annotation processing (Thanks gm-vm)
+
 0.2.1 (2019-09-06)
 ==================
 * Change incremental annotation processing to Aggregate
